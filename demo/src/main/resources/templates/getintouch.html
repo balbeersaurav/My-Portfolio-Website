@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Get In Touch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- nav bar -->
+  <header>
+
+    <!-- Logo clickable -->
+    <a href="index.html" class="logo">
+      <img src="images/myphoto-removebg-preview.png" alt="Saurav">
+      <h2>Balbeer Kumar Saurav</h2>
+    </a>
+
+    <nav>
+      <a href="about.html">About</a>
+      <a href="skills.html">Skills</a>
+      <a href="projects.html">Projects</a>
+      <a href="getintouch.html">Get In Touch</a>
+    </nav>
+
+  </header>
+
+  <div th:if="${successMessage}" style="color: lightgreen;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;">
+
+    <p th:text="${successMessage}"></p>
+
+  </div>
+
+  <section class="contact-section">
+
+    <!-- LEFT SIDE -->
+    <div class="contact-left">
+      <h1>Let's Work Together</h1>
+      <p>
+        Have a project or idea? Feel free to reach out. I'd love to hear from you!
+        Share a few details below, and we'll get back to you within 1-2 working days.
+      </p>
+    </div>
+
+    <!-- RIGHT SIDE FORM -->
+    <div class="contact-right">
+      <form action="/send" method="post">
+
+        <label>Name</label>
+        <input type="text" name="firstName" placeholder="Your name">
+
+        <label>Last name</label>
+        <input type="text" name="lastName" placeholder="Your last name">
+
+        <label>Your email*</label>
+        <input type="email" name="email" placeholder="Your email address">
+
+        <label>Message*</label>
+        <textarea name="message" placeholder="Enter your message"></textarea>
+
+        <button type="submit">Submit</button>
+
+      </form>
+    </div>
+
+  </section>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
