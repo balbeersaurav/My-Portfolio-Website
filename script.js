@@ -261,12 +261,51 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      if (status) {
-        status.textContent = 'Thank you! Your message has been noted — Balbeer will get back to you soon.';
-        status.className = 'form-status show success';
-      }
-      contactForm.reset();
-      contactForm.querySelectorAll('.field').forEach(f => f.classList.remove('filled'));
+      // All fields are valid — actually send the email via FormSubmit (no backend needed).
+      const submitBtn = document.getElementById('submit-btn');
+      const btnLabel = submitBtn ? submitBtn.querySelector('.btn-label') : null;
+      const endpoint = 'https://formsubmit.co/ajax/balbeerkumarsaurav@gmail.com';
+
+      const payload = {
+        name: name.value.trim(),
+        email: email.value.trim(),
+        phone: phone.value.trim(),
+        message: message.value.trim(),
+        _subject: 'New message from your portfolio website',
+        _template: 'table',
+        _captcha: 'false'
+      };
+
+      if (submitBtn) { submitBtn.disabled = true; }
+      if (btnLabel) { btnLabel.textContent = 'Sending...'; }
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.json())
+        .then(() => {
+          if (status) {
+            status.textContent = 'Thank you! Your message has been sent — Balbeer will get back to you soon.';
+            status.className = 'form-status show success';
+          }
+          contactForm.reset();
+          contactForm.querySelectorAll('.field').forEach(f => f.classList.remove('filled'));
+        })
+        .catch(() => {
+          if (status) {
+            status.textContent = 'Something went wrong sending your message. Please email balbeerkumarsaurav@gmail.com directly.';
+            status.className = 'form-status show';
+          }
+        })
+        .finally(() => {
+          if (submitBtn) { submitBtn.disabled = false; }
+          if (btnLabel) { btnLabel.textContent = 'Send Message'; }
+        });
     });
   }
 
